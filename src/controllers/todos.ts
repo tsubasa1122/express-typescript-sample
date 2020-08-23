@@ -14,3 +14,16 @@ export const createTodo: RequestHandler = (req, res, next) => {
 export const getTodos: RequestHandler = (req, res, next) => {
   res.json({ todos: TODOS });
 };
+
+export const updateTodo: RequestHandler<{ id: string }> = (req, res, next) => {
+  const todoId = req.params.id
+  const updateText = (req.body as { text: string }).text;
+  const todoIndex = TODOS.findIndex(todo => todo.id === todoId);
+  if (todoIndex < 0) {
+    throw new Error("対象のTODOが見つかりませんでした。");
+  };
+
+  TODOS[todoIndex] = new Todo(todoId, updateText);
+
+  res.json({ message: '更新しました。', updatedTodo: TODOS[todoIndex] });
+};
