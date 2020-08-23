@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { Todo } from '../models/todo';
 
-const TODOS = [];
+const TODOS: Todo[] = [];
 
 export const createTodo: RequestHandler = (req, res, next) => {
   const text = (req.body as { text: string }).text;
@@ -9,4 +9,8 @@ export const createTodo: RequestHandler = (req, res, next) => {
 
   TODOS.push(newTodo);
   res.status(201).json({ message: 'TODOを作成しました。', createdTodo: newTodo });
+};
+
+export const getTodos: RequestHandler = (req, res, next) => {
+  res.json({ todos: TODOS });
 };
